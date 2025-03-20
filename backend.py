@@ -3,14 +3,22 @@ from pydantic import BaseModel
 import sqlite3
 import uuid
 import openai
+import os
 
 app = FastAPI()
 
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
 # ✅ Set OpenAI API Key directly in the code (⚠️ Not recommended for production)
-OPENAI_API_KEY = "your-openai-api-key-here"
+#OPENAI_API_KEY = "your-openai-api-key-here"
 
 # ✅ Initialize OpenAI client
+#client = openai.OpenAI(api_key=OPENAI_API_KEY)
+if not OPENAI_API_KEY:
+    raise ValueError("⚠️ OPENAI_API_KEY is not set. Please configure it in environment variables.")
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
 
 # ✅ Database setup
 def get_db_connection():
